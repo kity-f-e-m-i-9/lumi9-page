@@ -132,7 +132,7 @@ export default function Collection() {
                   </div>
 
                   {outOfStock ? (
-                    <p className="product-card-oos">Out of stock</p>
+                    <p className="product-card-oos">Sold out</p>
                   ) : (
                     <div className="product-card-actions">
                       <Link to={`/product/${card.productId}`} className="product-card-details">

@@ -170,7 +170,7 @@ export default function ProductDetailPage() {
             <div className="pd-name-row">
               <h2 className="pd-name">{displayName}</h2>
               {outOfStock ? (
-                <span className="pd-stock-pill pd-stock-pill-out">Out of stock</span>
+                <span className="pd-stock-pill pd-stock-pill-out">Sold out</span>
               ) : (
                 <span className="pd-stock-pill">In Stock</span>
               )}
