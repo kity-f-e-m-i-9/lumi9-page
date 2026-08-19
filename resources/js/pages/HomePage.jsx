@@ -5,6 +5,7 @@ import UltraSoftComfort from '../components/UltraSoftComfort';
 import Collection from '../components/Collection';
 import Testimonials from '../components/Testimonials';
 import InstagramFeed from '../components/InstagramFeed';
+import OfferModal from '../components/OfferModal';
 
 export default function HomePage() {
   return (
@@ -16,6 +17,7 @@ export default function HomePage() {
       <Collection />
       <Testimonials />
       <InstagramFeed />
+      <OfferModal />
     </>
   );
 }
