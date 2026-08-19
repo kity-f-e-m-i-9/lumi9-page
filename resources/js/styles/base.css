@@ -1,0 +1,134 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  /* clip, not hidden: hidden on an ancestor breaks position:sticky
+     descendants (notably Safari); clip prevents horizontal scroll
+     without disabling sticky. */
+  overflow-x: clip;
+  max-width: 100vw;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-cream-50);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Visible keyboard focus on every interactive element, site-wide */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--focus-ring);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: clamp(var(--space-4), 4vw, var(--space-5));
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-green-800);
+  color: var(--color-white);
+  padding: var(--space-3) var(--space-5);
+  z-index: 1000;
+  border-radius: 0 0 var(--radius-sm) 0;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target-min);
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: var(--space-3) var(--space-6);
+  border: 2px solid var(--color-green-800);
+  transition: background var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.btn-primary {
+  background: var(--color-green-800);
+  color: var(--color-white);
+}
+
+.btn-primary:hover {
+  background: var(--color-green-900);
+  border-color: var(--color-green-900);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-green-800);
+}
+
+.btn-outline:hover {
+  background: var(--color-green-800);
+  color: var(--color-white);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

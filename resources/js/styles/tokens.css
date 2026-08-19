@@ -1,0 +1,76 @@
+/*
+  Design tokens — single source of truth for color, type, spacing, radius, shadow.
+  Consolidates the many near-duplicate greens/creams found in the original
+  Blade sections into one consistent palette.
+*/
+
+:root {
+  /* Brand greens */
+  --color-green-50: #f0f5e0;
+  --color-green-100: #e4f0c8;
+  --color-green-200: #c8d98a;
+  --color-green-300: #b5c47a;
+  --color-green-400: #8aa74b;
+  --color-green-500: #6d7e2d;
+  --color-green-600: #607919;
+  --color-green-700: #4e7a28;
+  --color-green-800: #3a5c1e;
+  --color-green-900: #2a3d18;
+
+  /* Cream / neutral background scale */
+  --color-cream-50: #fdf6e7;
+  --color-cream-100: #f5eac3;
+  --color-cream-200: #ede8d6;
+  --color-tan-300: #beaf81;
+
+  /* Text — tuned to clear 4.5:1 AA contrast against cream-50/cream-100 */
+  --color-text: #2a3d18;
+  --color-text-muted: #4f5c33;
+  --color-text-soft: #455028;
+
+  --color-white: #ffffff;
+
+  /* Typography */
+  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.375rem;
+  --fs-xl: 1.75rem;
+  --fs-2xl: 2.25rem;
+  --fs-3xl: 3rem;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* Radius / shadow */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 2px 8px rgba(42, 61, 24, 0.08);
+  --shadow-md: 0 8px 24px rgba(42, 61, 24, 0.14);
+  --shadow-lg: 0 16px 40px rgba(42, 61, 24, 0.18);
+
+  /* Layout */
+  --container-max: 1280px;
+  --header-height: 88px;
+  --touch-target-min: 44px;
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 180ms;
+  --duration-base: 320ms;
+
+  /* Focus ring — shared across all interactive elements */
+  --focus-ring: 0 0 0 3px var(--color-cream-50), 0 0 0 5px var(--color-green-600);
+}

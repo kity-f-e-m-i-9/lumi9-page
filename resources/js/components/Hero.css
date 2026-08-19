@@ -1,0 +1,203 @@
+.hero-section {
+  width: 100%;
+  line-height: 0;
+  position: relative;
+  /* Must not exceed the header wave's own rendered height (22px) — any
+     more and the image's straight top edge pokes out above the wave's
+     curve into the solid header background, showing as a hard
+     rectangular line cutting across the scallops. */
+  margin-top: -20px;
+}
+
+.hero-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-text-overlay {
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  z-index: 10;
+  max-width: 34%;
+  line-height: normal;
+}
+
+.hero-diaper-gif {
+  position: absolute;
+  left: 67%;
+  bottom: 14%;
+  transform: translateX(-50%);
+  width: 38%;
+  max-width: 620px;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.18));
+}
+
+.hero-eyebrow {
+  font-size: clamp(0.65rem, 0.9vw, 1.1rem);
+  font-weight: 700;
+  color: var(--color-green-500);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+.hero-headline {
+  font-weight: 800;
+  line-height: 1.15;
+  font-size: clamp(1.4rem, 3.4vw, 4.5rem);
+  color: var(--color-green-900);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.hero-ribbon-row {
+  display: flex;
+  margin-block: 0.35em;
+}
+
+.hero-ribbon {
+  font-size: 0.62em;
+  font-weight: 800;
+  color: var(--color-white);
+  background: var(--color-green-500);
+  padding: 0.3em 1.4em;
+  display: inline-block;
+  clip-path: polygon(0% 0%, 100% 0%, 91% 50%, 100% 100%, 0% 100%, 9% 50%);
+}
+
+.hero-headline-accent {
+  display: block;
+  color: var(--color-green-800);
+}
+
+.hero-tagline {
+  font-size: clamp(0.7rem, 1vw, 1.4rem);
+  color: var(--color-green-600);
+  font-weight: 600;
+  font-style: italic;
+  margin: var(--space-3) 0 0;
+}
+
+/* iPad / tablet widths — smaller text, sitting closer to the top. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-text-overlay {
+    top: 8%;
+    max-width: 42%;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.1rem, 3.1vw, 1.8rem);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.6rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.65rem;
+  }
+}
+
+/* MacBook Pro / typical laptop widths — sit slightly higher than the
+   default 20% so the text reads closer to the top of the frame. */
+@media (min-width: 1280px) and (max-width: 1919px) {
+  .hero-text-overlay {
+    top: 15%;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-section {
+    overflow: hidden;
+  }
+
+  .hero-banner-img {
+    /* Shift the banner right on mobile so more of the baby/mascot shows
+       past the text column. Widen slightly first so the right edge
+       doesn't leave a gap after the shift. */
+    width: 102%;
+    max-width: 102%;
+    margin-left: 1%;
+  }
+
+  .hero-text-overlay {
+    top: 6%;
+    max-width: 56%;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.1rem, 5.2vw, 1.6rem);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.55rem;
+    margin-bottom: 4px;
+  }
+
+  .hero-ribbon-row {
+    margin-block: 0.25em;
+  }
+
+  .hero-tagline {
+    font-size: 0.6rem;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-text-overlay {
+    top: 8%;
+    max-width: 62%;
+  }
+
+  .hero-headline {
+    font-size: clamp(0.6rem, 3vw, 0.8rem);
+    line-height: 1.25;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.38rem;
+    margin-bottom: 3px;
+  }
+
+  .hero-ribbon-row {
+    margin-block: 0.22em;
+  }
+
+  .hero-tagline {
+    font-size: 0.4rem;
+    margin-top: 3px;
+  }
+}
+
+/* iPhone SE / iPhone 12 Pro widths — nudge text down slightly. */
+@media (min-width: 375px) and (max-width: 428px) {
+  .hero-text-overlay {
+    top: 12%;
+  }
+}
+
+/* iPhone 4 and other very narrow phones */
+@media (max-width: 340px) {
+  .hero-text-overlay {
+    top: 13%;
+  }
+
+  .hero-headline {
+    font-size: clamp(0.5rem, 2.6vw, 0.68rem);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.32rem;
+    margin-bottom: 2px;
+  }
+
+  .hero-tagline {
+    font-size: 0.34rem;
+    margin-top: 2px;
+  }
+}

@@ -1,0 +1,150 @@
+.toast-stack {
+  position: fixed;
+  top: var(--space-5);
+  right: var(--space-5);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: min(380px, calc(100vw - var(--space-5) * 2));
+  pointer-events: none;
+}
+
+.toast {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-50);
+  box-shadow: var(--shadow-lg);
+  border: 2px solid var(--color-green-800);
+  pointer-events: auto;
+  animation: toast-in var(--duration-base) var(--ease-standard);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.toast-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--color-white);
+  background: var(--color-green-800);
+  border: 2px solid var(--color-green-900);
+}
+
+.toast-success .toast-icon {
+  background: var(--color-green-800);
+  border-color: var(--color-green-900);
+}
+
+.toast-error {
+  border-color: #8a3323;
+}
+.toast-error .toast-icon {
+  background: #b3432f;
+  border-color: #8a3323;
+}
+
+.toast-info {
+  border-color: var(--color-tan-300);
+}
+.toast-info .toast-icon {
+  background: var(--color-tan-300);
+  border-color: var(--color-green-800);
+}
+
+.toast-message {
+  flex: 1;
+  margin: 0;
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  color: var(--color-green-900);
+  line-height: 1.35;
+}
+
+.toast-close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: var(--color-cream-100);
+  color: var(--color-green-800);
+  border-radius: 50%;
+  transition: background var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.toast-close:hover {
+  background: var(--color-green-100);
+  transform: scale(1.08);
+}
+
+.toast-progress {
+  position: absolute;
+  left: var(--space-4);
+  right: var(--space-4);
+  bottom: 6px;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--color-green-800);
+  opacity: 0.25;
+  transform-origin: left;
+  animation-name: toast-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.toast-error .toast-progress {
+  background: #b3432f;
+}
+.toast-info .toast-progress {
+  background: var(--color-tan-300);
+}
+
+@keyframes toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+  .toast-progress {
+    animation: none;
+    transform: scaleX(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .toast-stack {
+    top: var(--space-4);
+    right: var(--space-4);
+    left: var(--space-4);
+    width: auto;
+  }
+}

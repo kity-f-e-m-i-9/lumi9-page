@@ -1,0 +1,454 @@
+.lumi-header {
+  background-color: var(--color-green-600);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+/* While the mobile menu is open, the header still needs to float over the
+   page instead of pushing the hero/content down as it grows. Absolute
+   positioning (rather than sticky) is used here only so the growth beyond
+   the closed-state height overlays instead of displacing content; the
+   header stays pinned to the current scroll position because sticky has
+   already placed it at top:0 before the menu opens. */
+@media (max-width: 991px) {
+  .lumi-header.is-open {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+/* Focus rings on the dark header need a dark-safe inner ring, not cream-50 */
+.lumi-header a:focus-visible,
+.lumi-header button:focus-visible {
+  box-shadow: 0 0 0 3px var(--color-green-600), 0 0 0 5px var(--color-white);
+}
+
+.lumi-navbar {
+  display: flex;
+  align-items: center;
+  min-height: var(--header-height);
+  gap: clamp(var(--space-3), 3vw, var(--space-7));
+  /* Independent of the site's content container so the header's own bar
+     can keep spreading out on very wide monitors instead of stalling at
+     1280px and leaving dead space on either side. */
+  max-width: 2200px;
+}
+
+.lumi-logo {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.lumi-logo img {
+  /* Scales smoothly across the full range instead of stalling once the
+     container hits its old cap — keeps growing gently on 4K screens. */
+  height: clamp(52px, 5vw, 104px);
+  width: auto;
+}
+
+.lumi-toggler {
+  display: none;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.lumi-toggler:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lumi-toggler.is-open {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.lumi-toggler-bar {
+  position: absolute;
+  width: 18px;
+  height: 2px;
+  background: var(--color-white);
+  border-radius: 2px;
+  transition: transform var(--duration-base) var(--ease-standard),
+    opacity var(--duration-fast) var(--ease-standard);
+}
+
+.lumi-toggler-bar:first-child {
+  transform: translateY(-3px);
+}
+
+.lumi-toggler-bar:last-child {
+  transform: translateY(3px);
+}
+
+.lumi-toggler.is-open .lumi-toggler-bar:first-child {
+  transform: translateY(0) rotate(45deg);
+}
+
+.lumi-toggler.is-open .lumi-toggler-bar:last-child {
+  transform: translateY(0) rotate(-45deg);
+}
+
+.lumi-nav-collapse-desktop {
+  display: flex;
+  align-items: center;
+  gap: clamp(var(--space-4), 3vw, var(--space-7));
+  margin-left: auto;
+  min-width: 0;
+}
+
+/* Single-page mode (SHOW_NAV_DRAWER = false) — icons stay directly in
+   the bar at every screen size, no toggler/drawer involved. */
+.lumi-icons-bar {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.lumi-icons-bar .lumi-icons {
+  border-left: none;
+  padding-left: 0;
+}
+
+/* Mobile expanding panel — collapsed by default on all screen sizes;
+   only unlocked (display:block) under the ≤991px media query below,
+   where it becomes the header's own growing body. */
+.lumi-nav-collapse-mobile {
+  display: none;
+}
+
+.lumi-nav-list {
+  display: flex;
+  align-items: center;
+  gap: clamp(2px, 1vw, var(--space-2));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
+}
+
+.lumi-nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target-min);
+  color: var(--color-white);
+  font-size: clamp(var(--fs-sm), 0.9vw, var(--fs-lg));
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: var(--space-2) clamp(var(--space-2), 1.4vw, var(--space-5));
+  border-bottom: 2px solid transparent;
+  opacity: 0.82;
+  transition: opacity var(--duration-fast), border-color var(--duration-fast);
+  white-space: nowrap;
+}
+
+.lumi-nav-link:hover,
+.lumi-nav-link.is-active {
+  opacity: 1;
+  border-bottom-color: var(--color-white);
+}
+
+.lumi-icons {
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 0.6vw, var(--space-3));
+  padding-left: clamp(var(--space-2), 1.6vw, var(--space-5));
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.lumi-icon-btn {
+  color: var(--color-white);
+  opacity: 0.88;
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+  transition: opacity var(--duration-fast), transform var(--duration-fast);
+}
+
+.lumi-icon-btn svg {
+  width: clamp(20px, 1.8vw, 34px);
+  height: clamp(20px, 1.8vw, 34px);
+}
+
+.lumi-icon-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.lumi-cart-btn {
+  position: relative;
+}
+
+.lumi-cart-badge {
+  position: absolute;
+  top: 2px;
+  right: -2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 17px;
+  height: 17px;
+  padding-inline: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-50);
+  color: var(--color-green-800);
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  border: 1.5px solid var(--color-green-800);
+}
+
+.lumi-account-avatar {
+  opacity: 1;
+}
+
+.lumi-account-avatar img {
+  width: clamp(28px, 1.8vw, 36px);
+  height: clamp(28px, 1.8vw, 36px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.lumi-account-avatar:hover img {
+  border-color: var(--color-white);
+}
+
+.lumi-account-placeholder {
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+}
+
+.lumi-search-wrap {
+  background-color: var(--color-green-700);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--duration-base) var(--ease-standard);
+}
+
+.lumi-search-wrap.is-open {
+  max-height: 64px;
+}
+
+.lumi-search-form {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 540px;
+  width: min(100% - 48px, 540px);
+  margin: var(--space-2) auto;
+  padding: var(--space-2) var(--space-5);
+  background: rgba(255, 255, 255, 0.13);
+  border-radius: var(--radius-pill);
+}
+
+.lumi-search-input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--color-white);
+  font-size: var(--fs-sm);
+  font-family: var(--font-body);
+}
+
+.lumi-search-input::placeholder {
+  color: var(--color-green-200);
+}
+
+.lumi-search-submit {
+  background: none;
+  border: none;
+  color: var(--color-white);
+  display: flex;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.lumi-wave {
+  line-height: 0;
+  height: 22px;
+  overflow: hidden;
+  /* Same color as the header body so any hairline rounding gap between
+     this box and the SVG's fill reads as green-on-green, not a seam. */
+  background-color: var(--color-green-600);
+}
+
+.lumi-wave svg {
+  display: block;
+  width: 100%;
+  /* Taller than the visible box and cropped by overflow:hidden above —
+     guarantees the fill's bottom edge always clears the box's bottom
+     edge, regardless of subpixel rounding at any zoom level. */
+  height: 26px;
+  margin-top: -2px;
+}
+
+/* ── Large desktop / wide monitors: give the bar more breathing room ── */
+@media (min-width: 1400px) {
+  .lumi-navbar {
+    min-height: 96px;
+  }
+}
+
+/* ── 4K / ultra-wide: content keeps growing instead of floating small
+   in a mostly-empty bar ── */
+@media (min-width: 2200px) {
+  .lumi-navbar {
+    min-height: 116px;
+  }
+}
+
+/* ── Small laptop / narrow desktop: nav still fits inline, just tighter ── */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .lumi-nav-link {
+    padding-inline: var(--space-2);
+  }
+}
+
+/* ── Tablet and below: the header itself grows to reveal the menu,
+   instead of a separate panel dropping below the curve. The nav-collapse
+   sits in normal flow (not absolutely positioned) between the navbar and
+   the wave, so opening it pushes the header's own bottom edge — and the
+   wave riding on it — further down. Both share the header's green so the
+   whole shape reads as one continuous curved body, not a rectangle
+   bolted underneath it. ── */
+@media (max-width: 991px) {
+  .lumi-toggler {
+    display: flex;
+  }
+
+  .lumi-nav-collapse-desktop {
+    display: none;
+  }
+
+  .lumi-icons-bar .lumi-icons {
+    gap: 0;
+  }
+
+  .lumi-icons-bar .lumi-icon-btn {
+    min-width: 32px;
+  }
+
+  .lumi-nav-collapse-mobile {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    width: 100%;
+    transition: max-height var(--duration-base) var(--ease-standard);
+  }
+
+  .lumi-nav-collapse-mobile.is-open {
+    max-height: 480px;
+  }
+
+  .lumi-nav-collapse-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-5);
+  }
+
+  .lumi-nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .lumi-nav-link {
+    font-size: var(--fs-base);
+    padding: var(--space-3) var(--space-1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    width: 100%;
+  }
+
+  /* Only the icons inside the mobile drawer panel get the divider —
+     the always-visible .lumi-icons-bar copy (single-page mode) must
+     stay untouched so it aligns level with the logo. */
+  .lumi-nav-collapse-mobile .lumi-icons {
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    border-left: none;
+    padding-top: var(--space-4);
+    padding-left: 0;
+    margin-top: var(--space-2);
+    justify-content: flex-start;
+  }
+}
+
+/* ── Tablet portrait: a touch more room than phones, but still a
+   shorter bar than desktop ── */
+@media (min-width: 576px) and (max-width: 991px) {
+  .lumi-navbar {
+    min-height: 64px;
+  }
+
+  .lumi-nav-collapse-mobile.is-open {
+    max-height: 420px;
+  }
+}
+
+/* ── Phones ── */
+@media (max-width: 575px) {
+  .lumi-navbar {
+    min-height: 60px;
+  }
+
+  .lumi-toggler {
+    min-width: 38px;
+    min-height: 38px;
+  }
+
+  .lumi-toggler-bar {
+    width: 15px;
+  }
+
+  .lumi-search-form {
+    width: min(100% - 32px, 480px);
+    padding: var(--space-2) var(--space-4);
+  }
+}
+
+/* ── Small/older phones ── */
+@media (max-width: 380px) {
+  .lumi-navbar {
+    min-height: 52px;
+  }
+
+  .lumi-logo img {
+    height: 40px;
+  }
+
+  .lumi-icons {
+    gap: var(--space-1);
+  }
+}
+
+@media (max-width: 480px) {
+  .lumi-wave {
+    height: 10px;
+  }
+
+  .lumi-wave svg {
+    height: 14px;
+    margin-top: -2px;
+  }
+}

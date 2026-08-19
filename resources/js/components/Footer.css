@@ -1,0 +1,240 @@
+.lumi-footer {
+  background: var(--color-cream-100);
+  color: #3d5a1a;
+  position: relative;
+  margin-top: 0;
+}
+
+.lumi-footer-wave {
+  display: block;
+  line-height: 0;
+  background: var(--color-cream-50);
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+
+.lumi-footer-wave svg {
+  display: block;
+  width: 100%;
+  height: 70px;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-mascot-wrap {
+  position: absolute;
+  right: 8%;
+  bottom: 34px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lumi-footer-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-6) var(--space-5);
+  position: relative;
+  z-index: 3;
+}
+
+.lumi-footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: var(--space-6) var(--space-5);
+}
+
+.lumi-footer-brand {
+  margin-top: var(--space-2);
+}
+
+.footer-logo-img {
+  height: 50px;
+  width: auto;
+  display: block;
+  margin-bottom: var(--space-2);
+  object-fit: contain;
+  max-width: 100%;
+}
+
+.footer-logo-sub {
+  color: var(--color-green-500);
+  font-size: 0.68rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.footer-col h6 {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--color-green-500);
+  margin: 0 0 var(--space-4);
+  letter-spacing: 0.02em;
+}
+
+.footer-col a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-green-500);
+  font-size: 0.78rem;
+  margin-bottom: 9px;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.footer-col a:hover {
+  color: #3d5a1a;
+}
+
+.footer-col a svg {
+  flex-shrink: 0;
+  color: var(--color-green-500);
+}
+
+.footer-mascot {
+  display: block;
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+}
+
+.footer-copy {
+  border-top: 1px solid rgba(61, 90, 26, 0.14);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  color: #3d5a1a;
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .lumi-footer-inner {
+    padding: var(--space-7) var(--space-4) var(--space-5);
+  }
+  .lumi-footer-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .lumi-footer-brand {
+    grid-column: 1 / -1;
+  }
+  .footer-mascot {
+    height: 50px;
+  }
+  .footer-mascot-wrap {
+    right: 6%;
+    bottom: 30px;
+  }
+  .lumi-footer-wave svg {
+    height: 50px;
+  }
+}
+
+@media (max-width: 767px) {
+  .lumi-footer {
+    margin-top: var(--space-6);
+  }
+  .footer-mascot {
+    height: 42px;
+  }
+  .footer-mascot-wrap {
+    right: 4%;
+    bottom: 24px;
+  }
+}
+
+@media (max-width: 575px) {
+  .lumi-footer {
+    margin-top: var(--space-5);
+  }
+  .lumi-footer-inner {
+    padding: var(--space-5) var(--space-3) var(--space-4);
+  }
+  .lumi-footer-wave svg {
+    height: 36px;
+  }
+  .footer-mascot {
+    height: 34px;
+  }
+  .footer-mascot-wrap {
+    right: 4%;
+    bottom: 16px;
+  }
+  .lumi-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5) var(--space-4);
+  }
+  .footer-col h6 {
+    font-size: 0.78rem;
+    margin-bottom: var(--space-3);
+  }
+  .footer-col a {
+    font-size: 0.72rem;
+    margin-bottom: 7px;
+  }
+  .footer-copy {
+    font-size: 0.64rem;
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+  }
+}
+
+@media (max-width: 380px) {
+  .lumi-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4) var(--space-3);
+  }
+  .footer-logo-img {
+    height: 42px;
+  }
+  .footer-col h6 {
+    font-size: 0.72rem;
+  }
+  .footer-col a {
+    font-size: 0.68rem;
+  }
+}
+
+/* Large / 4K screens */
+@media (min-width: 1920px) {
+  .lumi-footer-inner {
+    max-width: 1760px;
+    padding: 80px 64px 40px;
+  }
+  .lumi-footer-wave svg {
+    height: 100px;
+  }
+  .footer-logo-img {
+    height: 68px;
+  }
+  .footer-logo-sub {
+    font-size: 0.95rem;
+  }
+  .footer-col h6 {
+    font-size: 1.1rem;
+  }
+  .footer-col a {
+    font-size: 1rem;
+  }
+  .footer-col a svg {
+    width: 16px;
+    height: 16px;
+  }
+  .footer-mascot {
+    height: 100px;
+  }
+  .footer-mascot-wrap {
+    right: 9%;
+    bottom: 50px;
+  }
+  .footer-copy {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .lumi-footer-inner {
+    max-width: 2200px;
+  }
+}

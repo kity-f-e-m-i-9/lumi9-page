@@ -1,0 +1,40 @@
+name: Publish Website to CPanel
+on:
+  push:
+    branches:
+      - main
+jobs:
+  FTP-Deploy-Action:
+    name: FTP-Deploy-Action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install PHP dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-grpc
+
+      - name: Install and build frontend assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: FTP-Deploy-Action
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.LUMI9_FTP_SERVER }}
+          username: ${{ secrets.LUMI9_FTP_USERNAME }}
+          password: ${{ secrets.LUMI9_FTP_PASSWORD }}
+          server-dir: /thelumi9.com/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/tests/**
+            .env
+            .env.example
+            vendor/**

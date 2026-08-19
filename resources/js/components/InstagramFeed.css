@@ -1,0 +1,328 @@
+.insta-section {
+  background: var(--color-cream-50);
+  padding: var(--space-8) var(--space-4) var(--space-9);
+  position: relative;
+  overflow-x: clip;
+}
+
+.insta-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+}
+
+.insta-header {
+  text-align: center;
+  padding: var(--space-2) 0 4px;
+}
+
+.insta-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  color: var(--color-green-600);
+  margin: 0 0 var(--space-2);
+  line-height: 1.35;
+}
+
+.insta-title-lines {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.insta-title-line {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.insta-flourish {
+  flex: 0 0 auto;
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.insta-subtitle {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--fs-base);
+  margin: 0;
+}
+
+/* Gallery — always a horizontal scroll strip so the auto-step scroll works
+   consistently, and centered when the content is narrower than the viewport */
+.insta-grid {
+  display: flex;
+  gap: var(--space-5);
+  justify-content: safe center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: var(--space-2);
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.insta-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.insta-card {
+  background: var(--color-cream-50);
+  border: 2px solid var(--color-green-400);
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 6px;
+  width: 220px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.insta-card-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--color-cream-200);
+  border: 2px solid var(--color-green-400);
+  border-radius: var(--radius-sm);
+}
+
+.insta-card-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+video.insta-card-media {
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-standard);
+}
+
+video.insta-card-media.is-ready {
+  opacity: 1;
+}
+
+.insta-card-media-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.insta-card-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    var(--color-cream-200) 30%,
+    var(--color-cream-100) 50%,
+    var(--color-cream-200) 70%
+  );
+  background-size: 200% 100%;
+  animation: insta-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes insta-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .insta-card-skeleton {
+    animation: none;
+  }
+
+  video.insta-card-media {
+    transition: none;
+  }
+}
+
+.insta-status {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  padding: var(--space-6) 0;
+}
+
+.insta-badge {
+  position: absolute;
+  top: -7px;
+  right: -10px;
+  width: 42px;
+  height: 42px;
+  background: var(--color-cream-50);
+  border: 2.5px solid var(--color-green-400);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+  padding: 7px;
+  box-shadow: var(--shadow-sm);
+}
+
+.insta-badge img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .insta-card {
+    width: 200px;
+  }
+}
+
+@media (max-width: 900px) {
+  .insta-title {
+    font-size: var(--fs-xl);
+  }
+  .insta-title-lines {
+    flex-direction: column;
+    gap: 0;
+  }
+  .insta-grid {
+    justify-content: flex-start;
+    padding-bottom: var(--space-2);
+  }
+  .insta-card {
+    width: 180px;
+  }
+}
+
+@media (max-width: 560px) {
+  .insta-section {
+    padding: var(--space-5) var(--space-3) var(--space-6);
+  }
+  .insta-inner {
+    gap: var(--space-5);
+  }
+  .insta-header {
+    padding: 0;
+  }
+  .insta-title {
+    font-size: var(--fs-base);
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+  }
+  .insta-flourish {
+    height: 20px;
+  }
+  .insta-subtitle {
+    font-size: var(--fs-xs);
+  }
+  .insta-grid {
+    gap: var(--space-2);
+    padding: var(--space-1);
+  }
+  .insta-card {
+    width: 128px;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+  }
+  .insta-card-img {
+    aspect-ratio: 4 / 3;
+  }
+  .insta-badge {
+    width: 28px;
+    height: 28px;
+    top: -5px;
+    right: -7px;
+    padding: 4px;
+  }
+}
+
+/* Extra-small phones (iPhone 4 and similarly narrow devices, ~320-380px) */
+@media (max-width: 380px) {
+  .insta-section {
+    padding: var(--space-4) var(--space-2) var(--space-5);
+  }
+  .insta-inner {
+    gap: var(--space-3);
+  }
+  .insta-title {
+    font-size: var(--fs-sm);
+    gap: 6px;
+  }
+  .insta-flourish {
+    height: 16px;
+  }
+  .insta-subtitle {
+    font-size: 0.7rem;
+  }
+  .insta-grid {
+    gap: 6px;
+    padding: 2px;
+  }
+  .insta-card {
+    width: 104px;
+    padding: 3px;
+  }
+  .insta-badge {
+    width: 22px;
+    height: 22px;
+    top: -4px;
+    right: -5px;
+    padding: 3px;
+  }
+}
+
+/* Large / 4K screens */
+@media (min-width: 1920px) {
+  .insta-section {
+    padding: 100px var(--space-4) 120px;
+  }
+  .insta-inner {
+    max-width: 1760px;
+  }
+  .insta-title {
+    font-size: 3rem;
+  }
+  .insta-flourish {
+    height: 52px;
+  }
+  .insta-subtitle {
+    font-size: 1.375rem;
+  }
+  .insta-grid {
+    gap: var(--space-6);
+  }
+  .insta-card {
+    width: 300px;
+    padding: 10px;
+  }
+  .insta-badge {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .insta-inner {
+    max-width: 2200px;
+  }
+  .insta-title {
+    font-size: 3.5rem;
+  }
+  .insta-card {
+    width: 360px;
+  }
+}

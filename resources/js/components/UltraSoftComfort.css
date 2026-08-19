@@ -1,0 +1,254 @@
+.comfort-section{position:relative;background:#f5eac3;color:#3d5a1a;overflow:hidden;width:100%;padding:310px 80px 60px;font-family:'Nunito',sans-serif;margin-top:0;}
+
+/* Wave div is 300px tall — cream fill area gives room for characters above the curve */
+.comfort-top-wave{position:absolute;top:0;left:0;width:100%;height:300px;z-index:10;pointer-events:none;overflow:visible;}
+.comfort-top-wave svg{width:100%;height:100%;display:block;}
+
+/* 15 slots (14 rendered) inside the 300px wave div, feet on the wave curve */
+.cjw-chars{position:absolute;inset:0;pointer-events:none;}
+.cjw-chars .cjw-char{
+    position:absolute;
+    width:98px;height:198px;
+    object-fit:contain;
+    object-position:bottom center;
+    transform:translateX(calc(-50% - 130px));
+    opacity:0;
+    transition:opacity .35s ease, transform .55s cubic-bezier(.34,1.56,.64,1);
+    will-change:opacity,transform;
+    backface-visibility:hidden;
+    image-rendering:-webkit-optimize-contrast;
+}
+.cjw-chars .cjw-char.cjw-on{opacity:1;transform:translateX(-50%);}
+/* forward exit: current runs off to the right */
+.cjw-chars .cjw-char.cjw-exit{opacity:0;transform:translateX(calc(-50% + 150px));transition:opacity .22s ease,transform .32s ease-in;}
+
+/* chars 3–15 are larger than chars 1–2 */
+.cjw-chars .cjw-char:nth-child(n+3){width:120px;height:222px;}
+
+/* 15 chars, step=(98-2)/14=6.857% each, chars 1→15 at 2%…98% */
+.cjw-chars .cjw-char:nth-child(1) {left:  2.70%;bottom:118px;}
+.cjw-chars .cjw-char:nth-child(2) {left:  10.76%;bottom:122px;}
+.cjw-chars .cjw-char:nth-child(3) {left: 18.88%;bottom:113px;}
+.cjw-chars .cjw-char:nth-child(4) {left: 26.57%;bottom:105px;}
+.cjw-chars .cjw-char:nth-child(5) {left: 34.43%;bottom: 96px;}
+.cjw-chars .cjw-char:nth-child(6) {left: 42.29%;bottom: 89px;}
+.cjw-chars .cjw-char:nth-child(7) {left: 51.14%;bottom: 84px;}
+.cjw-chars .cjw-char:nth-child(8) {left: 58.40%;bottom: 86px;}
+.cjw-chars .cjw-char:nth-child(9) {left: 66.16%;bottom: 94px;}
+.cjw-chars .cjw-char:nth-child(10){left: 74.11%;bottom:106px;}
+.cjw-chars .cjw-char:nth-child(11){left: 81.57%;bottom:113px;}
+.cjw-chars .cjw-char:nth-child(12){left: 89.43%;bottom:112px;}
+.cjw-chars .cjw-char:nth-child(13){left: 96.29%;bottom:104px;}
+/* nth-child(14) (life-cycle-13) has nowhere to sit on desktop without
+   overlapping nth-child(13) or running off-canvas invisibly — hidden
+   here, shown only on mobile where it has its own dedicated spot. */
+.cjw-chars .cjw-char:nth-child(14){display:none;}
+.cjw-chars .cjw-char:nth-child(15){left:110.00%;bottom: 87px;}
+
+.comfort-bottom-wave{position:absolute;bottom:0;left:0;width:100%;height:300px;z-index:2;pointer-events:none;}
+.comfort-bottom-wave svg{width:100%;height:100%;display:block;}
+.comfort-inner{position:relative;z-index:5;}
+.comfort-baby-abs{position:absolute;top:170px;right:-1%;width:230px;z-index:4;}
+.comfort-baby-img{width:210%;margin-left:-195%;margin-top:-13%;display:block;}
+.comfort-heading{font-family:'Nunito',sans-serif;font-size:72px;font-weight:800;line-height:.95;color:#6d7e2d;margin-bottom:1.5%;margin-left:5%;}
+.comfort-desc{max-width:640px;font-size:21px;font-family:'Nunito',sans-serif;color:#6d7e2d;line-height:1.5;margin-bottom:4.5%;padding-bottom:1.5%;margin-left:5%;}
+.comfort-cards-row{display:flex;justify-content:center;align-items:stretch;gap:20px;flex-wrap:nowrap;margin-bottom:0;margin-top:-39px;position:relative;z-index:5;}
+/* Prev/next controls are parked off — the card row currently has no
+   scroll/overflow that needs manual navigation. Buttons stay in the JSX
+   (tabIndex={-1}, aria-hidden) so they're easy to re-enable later without
+   rebuilding the goToCard() logic, but excluded from tab order while hidden. */
+.comfort-arrow{display:none;}
+.comfort-card{width:400px;height:320px;background:#fdf6e7;border-radius:26px;overflow:hidden;display:flex;border:1.5px solid #8AA74B;box-shadow:0 6px 18px rgba(0,0,0,.08);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;}
+@media(hover:hover) and (pointer:fine){
+    .comfort-card:hover{border-color:#8AA74B;transform:translateY(-5px);box-shadow:0 12px 32px rgba(0,0,0,.14),0 4px 14px rgba(0,0,0,.1);}
+}
+.comfort-card-photo{width:44%;position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden;}
+.comfort-card-img{width:120%;height:100%;object-fit:cover;object-position:center top;}
+
+/* Per-photo crop tuning, desktop only (>=1200px, matches the fixed-size
+   .comfort-card layout). Tablet keeps the plain default above; mobile
+   already resets object-position/transform with !important. */
+@media(min-width:1200px){
+    .comfort-card-img[data-photo="leakage"]{object-position:center 15%;}
+    .comfort-card-img[data-photo="eco"]{object-position:left center;transform:scale(1.55);}
+}
+.comfort-card-content{width:56%;position:relative;padding:26px 26px 28px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;}
+.cc-icon-title{display:block;padding-right:56px;}
+.comfort-card-icon{position:absolute;top:18px;right:18px;width:44px;height:44px;background:#819b44;border-radius:50%;color:#fff;display:flex;justify-content:center;align-items:center;flex-shrink:0;}
+.comfort-card-icon svg{width:20px;height:20px;}
+.comfort-card-title{font-size:22px;font-weight:700;color:#244019;line-height:1.3;}
+.comfort-card-divider{width:65px;height:5px;border-radius:30px;background:#7fa54e;margin:14px 0;}
+.comfort-card-desc{font-size:17px;line-height:1.6;color:#777;}
+
+/* ── TABLET ── */
+@media(max-width:1199px){
+    .comfort-section{padding:310px 40px 30px;}
+    .comfort-baby-abs{top:310px;width:230px;}
+    .comfort-heading{font-size:56px;}
+    .comfort-cards-row{flex-wrap:wrap;margin-top:20px;gap:16px;}
+    .comfort-card{width:calc(50% - 8px);height:auto;min-height:260px;}
+    .cjw-chars .cjw-char{width:66px;height:133px;}
+    .cjw-chars .cjw-char:nth-child(n+3){width:80px;height:150px;}
+}
+@media(max-width:991px){
+    .comfort-section{padding:200px 20px 60px;}
+    .comfort-top-wave{height:270px;}
+    .comfort-baby-abs{position:relative;top:auto;right:auto;width:290px;margin:0 auto 14px;display:block;}
+    .comfort-baby-img{width:100%;margin-left:0;margin-top:0;}
+    .comfort-heading{font-size:42px;margin-left:0;text-align:center;margin-bottom:10px;}
+    .comfort-desc{margin-left:0;text-align:center;max-width:100%;font-size:17px;margin-bottom:20px;padding-bottom:0;}
+    .comfort-cards-row{flex-wrap:wrap;margin-top:32px;gap:14px;}
+    .comfort-card{width:calc(50% - 7px);height:auto;min-height:190px;}
+    .comfort-card-content{padding:16px 18px;}
+    .cc-icon-title{padding-right:40px;}
+    .comfort-card-icon{top:12px;right:12px;width:34px;height:34px;}
+    .comfort-card-icon svg{width:15px;height:15px;}
+    .comfort-card-title{font-size:15px;line-height:1.3;max-width:140px;}
+    .comfort-card-divider{margin:8px 0;}
+    .comfort-card-desc{font-size:12.5px;line-height:1.4;}
+    .comfort-bottom-wave{height:180px;}
+    .cjw-chars .cjw-char{width:42px;height:88px;}
+    .cjw-chars .cjw-char:nth-child(n+3){width:54px;height:110px;}
+    /* bottom values rescaled for the shorter 270px wave (was 340px) */
+    .cjw-chars .cjw-char:nth-child(1) {bottom:106px;}
+    .cjw-chars .cjw-char:nth-child(2) {bottom:119px;}
+    .cjw-chars .cjw-char:nth-child(3) {bottom:102px;}
+    .cjw-chars .cjw-char:nth-child(4) {bottom: 94px;}
+    .cjw-chars .cjw-char:nth-child(5) {bottom: 87px;}
+    .cjw-chars .cjw-char:nth-child(6) {bottom: 80px;}
+    .cjw-chars .cjw-char:nth-child(7) {bottom: 75px;}
+    .cjw-chars .cjw-char:nth-child(8) {bottom: 77px;}
+    .cjw-chars .cjw-char:nth-child(9) {bottom: 84px;}
+    .cjw-chars .cjw-char:nth-child(10){bottom: 95px;}
+    .cjw-chars .cjw-char:nth-child(11){bottom:102px;}
+    .cjw-chars .cjw-char:nth-child(12){bottom:101px;}
+    .cjw-chars .cjw-char:nth-child(13){bottom: 94px;}
+    .cjw-chars .cjw-char:nth-child(14){bottom: 83px;}
+    .cjw-chars .cjw-char:nth-child(15){bottom: 79px;}
+}
+@media(max-width:767px){
+    .comfort-section{padding:90px 0 40px;}
+    .comfort-top-wave{height:90px;}
+    .comfort-bottom-wave{height:220px;}
+    .comfort-baby-abs{width:200px;margin-bottom:4px;}
+    .comfort-heading{font-size:30px;text-align:center;margin-left:0;margin-bottom:8px;padding:0 20px;}
+    .comfort-desc{font-size:14.5px;text-align:center;margin-left:0;margin-bottom:20px;padding:0 20px;}
+    .comfort-desc br{display:none;}
+    .cjw-chars .cjw-char{width:50px;height:90px;}
+    .cjw-chars .cjw-char:nth-child(n+3){width:64px;height:114px;}
+    /* bottom values rescaled for the shorter 90px wave (was 115px) */
+    .cjw-chars .cjw-char:nth-child(1) {bottom:35px;}
+    .cjw-chars .cjw-char:nth-child(2) {bottom:38px;}
+    .cjw-chars .cjw-char:nth-child(3) {bottom:32px;}
+    .cjw-chars .cjw-char:nth-child(4) {bottom:31px;}
+    .cjw-chars .cjw-char:nth-child(5) {bottom:29px;}
+    .cjw-chars .cjw-char:nth-child(6) {bottom:27px;}
+    .cjw-chars .cjw-char:nth-child(7) {bottom:25px;}
+    .cjw-chars .cjw-char:nth-child(8) {bottom:26px;}
+    .cjw-chars .cjw-char:nth-child(9) {bottom:28px;}
+    .cjw-chars .cjw-char:nth-child(10){bottom:31px;}
+    .cjw-chars .cjw-char:nth-child(11){bottom:34px;}
+    .cjw-chars .cjw-char:nth-child(12){bottom:34px;}
+    .cjw-chars .cjw-char:nth-child(13){bottom:32px;}
+    .cjw-chars .cjw-char:nth-child(14){bottom:29px;}
+    .cjw-chars .cjw-char:nth-child(15){bottom:27px;}
+
+    /* Mobile: only show every other (odd-numbered) character — the full
+       set crammed onto a narrow screen read as clutter. Keep just
+       life-cycle 1/3/5/9/11/13/15, evenly re-spaced across the wave.
+       Left range kept within 8%–92% (not 2%–98%) so the first/last
+       character's centered transform doesn't clip against the edges. */
+    .cjw-chars .cjw-char{display:none;}
+    .cjw-chars .cjw-char.cjw-mobile-keep{display:block;}
+    .cjw-chars .cjw-char:nth-child(2) {left:  8%; bottom:35px;}
+    .cjw-chars .cjw-char:nth-child(3) {left: 22%; bottom:32px;}
+    .cjw-chars .cjw-char:nth-child(5) {left: 36%; bottom:27px;}
+    .cjw-chars .cjw-char:nth-child(8) {left: 50%; bottom:26px;}
+    .cjw-chars .cjw-char:nth-child(10){left: 64%; bottom:27px;}
+    .cjw-chars .cjw-char:nth-child(12){left: 78%; bottom:32px;}
+    .cjw-chars .cjw-char:nth-child(14){left: 92%; bottom:35px;}
+
+    /* 2×2 grid: all 4 cards visible at once, no swiping/arrows.
+       Each card shows a centered icon, title, and description —
+       the photo pane and divider are hidden on this breakpoint. */
+    .comfort-cards-row{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        justify-content:center;
+        justify-items:center;
+        gap:10px;
+        width:100%;
+        max-width:420px;
+        margin:0 auto;
+        padding:4px 14px 20px;
+        box-sizing:border-box;
+    }
+    .comfort-arrow{display:none;}
+    .comfort-card{
+        display:flex;
+        width:100%;
+        aspect-ratio:1/1;
+        border-radius:16px;
+        cursor:default;
+    }
+    .comfort-card-photo{display:none;}
+    .comfort-card-content{
+        display:flex;
+        flex-direction:column;
+        width:100%;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        padding:16px;
+        text-align:center;
+    }
+    .cc-icon-title{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:8px;
+        padding-right:0;
+    }
+    .comfort-card-divider{display:none;}
+    .comfort-card-icon{
+        position:static;
+        width:48px;
+        height:48px;
+        margin:0;
+    }
+    .comfort-card-icon svg{width:22px;height:22px;}
+    .comfort-card-title{
+        font-size:13px;
+        line-height:1.3;
+    }
+    .comfort-card-desc{
+        font-size:10.5px;
+        line-height:1.4;
+    }
+}
+
+/* ── LARGE DESKTOP (MacBook Pro and up) ── */
+@media(min-width:1440px){
+    .comfort-section{padding:300px 80px 60px;}
+    .comfort-baby-abs{top:180px;right:-46%;width:400px;}
+    /* Center the heading/description so they align with the already
+       centered cards row below, instead of sitting left-indented. */
+    .comfort-heading{font-size:56px;margin-top:-30px;margin-left:0;text-align:center;}
+    .comfort-desc{font-size:15px;max-width:580px;margin-left:auto;margin-right:auto;text-align:center;}
+    .comfort-card{width:580px;height:260px;}
+    .comfort-card-content{padding:20px 24px;}
+    .cc-icon-title{padding-right:46px;}
+    .comfort-card-icon{top:14px;right:14px;width:38px;height:38px;}
+    .comfort-card-icon svg{width:17px;height:17px;}
+    .comfort-card-title{font-size:16px;line-height:1.3;max-width:160px;}
+    .comfort-card-divider{margin:8px 0;}
+    .comfort-card-desc{font-size:13px;line-height:1.4;}
+}
+
+/* ── 4K / ULTRA-WIDE ── */
+@media(min-width:1920px){
+    .comfort-baby-abs{top:240px;right:-38%;width:560px;}
+    .comfort-heading{font-size:68px;}
+    .comfort-desc{font-size:18px;max-width:680px;}
+}
+

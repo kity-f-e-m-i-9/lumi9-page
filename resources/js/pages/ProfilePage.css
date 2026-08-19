@@ -1,0 +1,576 @@
+.profile-page {
+  padding: var(--space-8) var(--space-5) var(--space-9);
+  min-height: 60vh;
+}
+
+.ph-status {
+  color: var(--color-text-muted);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Hero card — gradient "photo" backdrop, floating avatar, pill CTA        */
+/* ---------------------------------------------------------------------- */
+
+.ph-hero-card {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto var(--space-6);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: var(--color-white);
+}
+
+.ph-hero-backdrop {
+  position: relative;
+  height: 132px;
+  background: linear-gradient(135deg, var(--color-green-500) 0%, var(--color-green-800) 55%, var(--color-green-900) 100%);
+  overflow: hidden;
+}
+
+.ph-hero-leaf {
+  position: absolute;
+  color: rgba(253, 246, 231, 0.16);
+}
+
+.ph-hero-leaf-1 {
+  width: 90px;
+  height: 90px;
+  top: -18px;
+  right: -10px;
+  transform: rotate(18deg);
+}
+
+.ph-hero-leaf-2 {
+  width: 56px;
+  height: 56px;
+  bottom: -14px;
+  left: 8%;
+  transform: rotate(-24deg);
+}
+
+.ph-hero-body {
+  position: relative;
+  padding: 0 var(--space-6) var(--space-6);
+  text-align: center;
+}
+
+.ph-hero-avatar-wrap {
+  width: 96px;
+  height: 96px;
+  margin: -48px auto var(--space-3);
+  border-radius: 50%;
+  background: var(--color-white);
+  padding: 4px;
+  box-shadow: var(--shadow-md);
+}
+
+.ph-hero-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.ph-hero-name {
+  font-size: var(--fs-xl);
+  font-weight: 900;
+  color: var(--color-green-900);
+  margin: 0 0 var(--space-1);
+}
+
+.ph-hero-tagline {
+  margin: 0 0 var(--space-5);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+.ph-hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.ph-hero-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  color: var(--color-green-800);
+}
+
+.ph-hero-stat svg {
+  color: var(--color-green-600);
+  flex-shrink: 0;
+}
+
+.ph-hero-stat-divider {
+  width: 1px;
+  height: 16px;
+  background: var(--color-cream-200);
+}
+
+.ph-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--color-green-900);
+  color: var(--color-white);
+  font-weight: 800;
+  font-size: var(--fs-sm);
+  border-radius: var(--radius-pill);
+  padding: var(--space-3) var(--space-6);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.ph-hero-cta:hover {
+  background: var(--color-green-800);
+}
+
+.ph-hero-cta:active {
+  transform: scale(0.97);
+}
+
+/* Order-success banner */
+
+.ph-order-success {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 900px;
+  margin: 0 auto var(--space-6);
+  background: var(--color-green-50);
+  border: 1.5px solid var(--color-green-300);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-green-900);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+}
+
+.ph-order-success svg {
+  flex-shrink: 0;
+  color: var(--color-green-700);
+}
+
+.ph-order-success span {
+  flex: 1;
+}
+
+.ph-order-success button {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-green-800);
+  font-size: var(--fs-lg);
+  line-height: 1;
+  padding: 0 var(--space-1);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Tabs                                                                     */
+/* ---------------------------------------------------------------------- */
+
+.ph-tabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-6);
+  border-bottom: 2px solid var(--color-cream-200);
+  margin: 0 auto var(--space-6);
+  max-width: 900px;
+}
+
+.ph-tab {
+  border: none;
+  background: transparent;
+  padding: var(--space-3) var(--space-2);
+  font-weight: 800;
+  font-size: var(--fs-base);
+  color: var(--color-text-muted);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+
+.ph-tab:hover {
+  color: var(--color-green-800);
+}
+
+.ph-tab.is-active {
+  color: var(--color-green-900);
+  border-bottom-color: var(--color-green-800);
+}
+
+.ph-tab-content {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Generic cards                                                           */
+/* ---------------------------------------------------------------------- */
+
+.ph-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.ph-card-title {
+  font-size: var(--fs-lg);
+  font-weight: 800;
+  color: var(--color-green-900);
+  margin: 0 0 var(--space-4);
+}
+
+.ph-loggedout {
+  max-width: 420px;
+  margin: var(--space-8) auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.ph-field-note {
+  margin: var(--space-4) 0 0;
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* Profile fields */
+
+.ph-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.ph-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.ph-field-wide {
+  grid-column: 1 / -1;
+}
+
+.ph-field > span {
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  color: var(--color-text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ph-field input {
+  min-height: var(--touch-target-min);
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-cream-200);
+  background: var(--color-cream-50);
+  padding: 0 var(--space-4);
+  font-size: var(--fs-base);
+  font-family: inherit;
+  color: var(--color-text);
+}
+
+.ph-field input:disabled {
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Wallet — same gradient-card language as the hero                        */
+/* ---------------------------------------------------------------------- */
+
+.ph-wallet-hero {
+  max-width: none;
+  margin: 0;
+}
+
+.ph-wallet-hero .ph-hero-backdrop {
+  height: 0;
+}
+
+.ph-wallet-body {
+  padding: var(--space-6);
+  text-align: left;
+  background: linear-gradient(135deg, var(--color-green-600) 0%, var(--color-green-900) 100%);
+  color: var(--color-white);
+  border-radius: var(--radius-lg);
+}
+
+.ph-wallet-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+}
+
+.ph-wallet-brand {
+  font-weight: 900;
+  font-size: var(--fs-lg);
+}
+
+.ph-wallet-chip {
+  width: 40px;
+  height: 30px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #f5d878, #d4a828);
+}
+
+.ph-wallet-number {
+  font-size: var(--fs-md);
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--space-6);
+}
+
+.ph-wallet-bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ph-wallet-bottom div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ph-wallet-bottom span {
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-green-100);
+}
+
+.ph-wallet-bottom strong {
+  font-size: var(--fs-md);
+  font-weight: 800;
+}
+
+/* Referral */
+
+.ph-referral-text {
+  margin: 0 0 var(--space-3);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
+.ph-referral-label {
+  font-weight: 800;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-soft);
+  margin: 0 0 var(--space-2);
+}
+
+.ph-referral-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.ph-referral-code {
+  flex: 1 1 240px;
+  font-size: var(--fs-xs);
+  word-break: break-all;
+  background: var(--color-cream-50);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+}
+
+.ph-referral-btn {
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Orders list                                                             */
+/* ---------------------------------------------------------------------- */
+
+.ph-orders-empty {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-6);
+}
+
+.ph-orders-empty-icon {
+  color: var(--color-cream-200);
+}
+
+.ph-orders-empty .ph-card-title {
+  margin-bottom: 0;
+}
+
+.ph-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.ph-order-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.ph-order-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.ph-order-thumb-wrap {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  background: var(--color-cream-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ph-order-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.ph-order-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ph-order-title {
+  margin: 0;
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  color: var(--color-green-900);
+}
+
+.ph-order-meta {
+  margin: 2px 0 0;
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+.ph-order-status {
+  flex-shrink: 0;
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-tan-300);
+  background: var(--color-cream-100);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+}
+
+.ph-order-status.is-paid {
+  color: var(--color-white);
+  background: var(--color-green-700);
+}
+
+.ph-order-total {
+  flex-shrink: 0;
+  font-size: var(--fs-base);
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.ph-order-chevron {
+  flex-shrink: 0;
+  color: var(--color-cream-200);
+}
+
+.ph-orders-load-more {
+  align-self: center;
+  margin-top: var(--space-3);
+  border: 2px solid var(--color-green-800);
+  background: transparent;
+  color: var(--color-green-800);
+  font-weight: 800;
+  font-size: var(--fs-sm);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-6);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.ph-orders-load-more:hover {
+  background: var(--color-green-800);
+  color: var(--color-white);
+}
+
+.ph-orders-load-more:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Mobile                                                                   */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  .profile-page {
+    padding: var(--space-6) var(--space-4) var(--space-7);
+  }
+
+  .ph-tabs {
+    gap: var(--space-4);
+  }
+
+  .ph-tab {
+    font-size: var(--fs-sm);
+  }
+
+  .ph-card,
+  .ph-wallet-body {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .ph-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ph-order-status {
+    display: none;
+  }
+
+  .ph-order-card {
+    flex-wrap: wrap;
+  }
+}

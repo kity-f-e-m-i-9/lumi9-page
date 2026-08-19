@@ -1,0 +1,87 @@
+.order-confirm-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-9) var(--space-5);
+}
+
+.order-confirm-card {
+  max-width: 460px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-7) var(--space-6);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.order-confirm-status {
+  color: var(--color-text-muted);
+  font-weight: 700;
+  margin: 0;
+}
+
+.order-confirm-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--color-green-100);
+  color: var(--color-green-800);
+  margin-bottom: var(--space-2);
+}
+
+.order-confirm-icon-pending {
+  background: var(--color-cream-100);
+  color: var(--color-tan-300);
+}
+
+.order-confirm-icon-failed {
+  background: #fdf1ec;
+  color: #b3432f;
+}
+
+.order-confirm-title {
+  font-size: var(--fs-xl);
+  font-weight: 900;
+  color: var(--color-green-900);
+  margin: 0;
+}
+
+.order-confirm-text {
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.order-confirm-amount {
+  font-size: var(--fs-2xl);
+  font-weight: 900;
+  color: var(--color-green-800);
+  margin: 0 0 var(--space-2);
+}
+
+.order-confirm-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.order-confirm-link {
+  color: var(--color-text-muted);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
