@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\WhatsappOTP;
 use App\Services\AvatarService;
@@ -59,6 +60,7 @@ class LoginController extends Controller
 
                 if (! $user) {
                     $avatarFileName = $this->avatarService->generateAvatar($name);
+                    $loginBonus = Setting::where('id', 5)->value('val') ?? 0;
 
                     $user = User::create([
                         'name' => $name,
@@ -67,6 +69,7 @@ class LoginController extends Controller
                         'signup_type' => 2,
                         'image' => $avatarFileName,
                         'phone_verified_at' => now(),
+                        'wallet' => $loginBonus,
                     ]);
                 }
 
@@ -415,6 +418,7 @@ class LoginController extends Controller
 
         if (! $user) {
             $avatarFileName = $this->avatarService->generateAvatar($data->name);
+            $loginBonus = Setting::where('id', 5)->value('val') ?? 0;
 
             $user = User::create([
                 'name' => $data->name,
@@ -423,6 +427,7 @@ class LoginController extends Controller
                 'password' => null,
                 'signup_type' => $signupType,
                 'image' => $avatarFileName,
+                'wallet' => $loginBonus,
             ]);
 
             return ['success' => true, 'message' => 'User registered successfully'];
