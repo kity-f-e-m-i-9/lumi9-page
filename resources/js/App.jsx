@@ -9,6 +9,7 @@ import OrderConfirmPage from './pages/OrderConfirmPage';
 import ProfilePage from './pages/ProfilePage';
 import OrderDetailPage from './pages/OrderDetailPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/profile/orders/:id" element={<OrderDetailPage />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />
