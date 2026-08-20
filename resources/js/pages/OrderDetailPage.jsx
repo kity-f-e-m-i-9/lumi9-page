@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { apiFetch } from '../lib/api';
+import { formatAmount } from '../lib/currency';
 import './OrderDetailPage.css';
 
 const productImageSrc = (image) => (image ? `/uploads/Product/${image}` : '/images/logo.webp');
@@ -84,7 +85,7 @@ export default function OrderDetailPage() {
                     <p className="order-detail-item-name">{item.name}</p>
                     <p className="order-detail-item-variant">{item.label} · Qty {item.qty}</p>
                   </div>
-                  <span className="order-detail-item-total">₹{item.lineTotal ?? item.price * item.qty}</span>
+                  <span className="order-detail-item-total">₹{formatAmount(item.lineTotal ?? item.price * item.qty)}</span>
                 </li>
               ))}
             </ul>
@@ -115,27 +116,27 @@ export default function OrderDetailPage() {
           <div className="order-detail-totals">
             <div className="order-detail-totals-row">
               <span>Subtotal</span>
-              <span>₹{order.subtotal}</span>
+              <span>₹{formatAmount(order.subtotal)}</span>
             </div>
             <div className="order-detail-totals-row">
               <span>Delivery</span>
-              <span>{order.deliveryFee > 0 ? `₹${order.deliveryFee}` : 'Free'}</span>
+              <span>{order.deliveryFee > 0 ? `₹${formatAmount(order.deliveryFee)}` : 'Free'}</span>
             </div>
             {order.coupon && (
               <div className="order-detail-totals-row order-detail-totals-discount">
                 <span>Coupon ({order.coupon})</span>
-                <span>−₹{order.couponDiscount}</span>
+                <span>−₹{formatAmount(order.couponDiscount)}</span>
               </div>
             )}
             {order.walletUsed > 0 && (
               <div className="order-detail-totals-row order-detail-totals-discount">
                 <span>Wallet redeemed</span>
-                <span>−₹{order.walletUsed}</span>
+                <span>−₹{formatAmount(order.walletUsed)}</span>
               </div>
             )}
             <div className="order-detail-totals-row order-detail-totals-grand">
               <span>Total</span>
-              <span>₹{order.total}</span>
+              <span>₹{formatAmount(order.total)}</span>
             </div>
           </div>
         </aside>

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
+import { formatAmount } from '../lib/currency';
 import './CartDrawer.css';
 
 const productImageSrc = (image) => (image ? `/uploads/Product/${image}` : '/images/logo.webp');
@@ -137,9 +138,9 @@ export default function CartDrawer({ open, onClose }) {
                       </div>
 
                       <div className="cart-item-price">
-                        <span className="cart-item-price-current">₹{item.price * item.qty}</span>
+                        <span className="cart-item-price-current">₹{formatAmount(item.price * item.qty)}</span>
                         {item.mrp > item.price && (
-                          <span className="cart-item-price-mrp">₹{item.mrp * item.qty}</span>
+                          <span className="cart-item-price-mrp">₹{formatAmount(item.mrp * item.qty)}</span>
                         )}
                       </div>
                     </div>
@@ -171,17 +172,17 @@ export default function CartDrawer({ open, onClose }) {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M11 20A7 7 0 019.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z" />
                   </svg>
-                  You're saving ₹{savings} on this order
+                  You're saving ₹{formatAmount(savings)} on this order
                 </p>
               )}
 
               <div className="cart-subtotal-row">
                 <span>Subtotal</span>
-                <span className="cart-subtotal-amount">₹{subtotal}</span>
+                <span className="cart-subtotal-amount">₹{formatAmount(subtotal)}</span>
               </div>
 
               <button type="button" className="btn btn-primary cart-checkout-btn" onClick={goToCheckout}>
-                Checkout · ₹{subtotal}
+                Checkout · ₹{formatAmount(subtotal)}
               </button>
               <button type="button" className="cart-continue-btn" onClick={onClose}>
                 Continue Shopping

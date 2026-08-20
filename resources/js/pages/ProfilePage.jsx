@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { apiFetch } from '../lib/api';
+import { formatAmount } from '../lib/currency';
 import { useAuth } from '../components/AuthContext';
 import { useToast } from '../components/ToastContext';
 import './ProfilePage.css';
@@ -52,7 +53,7 @@ function HeroCard({ user, totalOrders, onLogout }) {
         <div className="ph-hero-stats">
           <div className="ph-hero-stat">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="14" rx="2" /><path d="M2 10h20" /></svg>
-            <span>₹{user.wallet ?? 0} wallet</span>
+            <span>₹{formatAmount(user.wallet ?? 0)} wallet</span>
           </div>
           <span className="ph-hero-stat-divider" aria-hidden="true" />
           <div className="ph-hero-stat">
@@ -132,7 +133,7 @@ function ProfileTab({ user }) {
             </div>
             <div>
               <span>Balance</span>
-              <strong>₹{user.wallet ?? 0}</strong>
+              <strong>₹{formatAmount(user.wallet ?? 0)}</strong>
             </div>
           </div>
         </div>
@@ -231,7 +232,7 @@ function OrdersTab() {
           <span className={`ph-order-status${order.paid ? ' is-paid' : ''}`}>
             {order.paid ? 'Paid' : 'Pending'}
           </span>
-          <span className="ph-order-total">₹{order.total}</span>
+          <span className="ph-order-total">₹{formatAmount(order.total)}</span>
           <svg className="ph-order-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="9 18 15 12 9 6" />
           </svg>
@@ -307,7 +308,7 @@ export default function ProfilePage() {
             <polyline points="20 6 9 17 4 12" />
           </svg>
           <span>
-            Order placed successfully{orderId ? ` — #${orderId}` : ''}{orderAmount ? ` · ₹${orderAmount}` : ''}.
+            Order placed successfully{orderId ? ` — #${orderId}` : ''}{orderAmount ? ` · ₹${formatAmount(orderAmount)}` : ''}.
             Thank you for shopping with Lumi9!
           </span>
           <button type="button" onClick={dismissOrderBanner} aria-label="Dismiss">×</button>

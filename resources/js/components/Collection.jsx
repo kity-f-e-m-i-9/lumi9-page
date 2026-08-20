@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiFetch } from '../lib/api';
 import { discountPercent, productImageSrc, toCard } from '../lib/products';
+import { formatAmount } from '../lib/currency';
 import { useCart } from './CartContext';
 import { useToast } from './ToastContext';
 import './Collection.css';
@@ -122,10 +123,10 @@ export default function Collection() {
                   </div>
 
                   <div className="product-card-price-row">
-                    <span className="product-card-price">₹{card.price}</span>
+                    <span className="product-card-price">₹{formatAmount(card.price)}</span>
                     {card.mrp > card.price && (
                       <>
-                        <span className="product-card-mrp">₹{card.mrp}</span>
+                        <span className="product-card-mrp">₹{formatAmount(card.mrp)}</span>
                         <span className="product-card-discount">{discountPercent(card.price, card.mrp)}% off</span>
                       </>
                     )}

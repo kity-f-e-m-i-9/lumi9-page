@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { apiFetch } from '../lib/api';
+import { formatAmount } from '../lib/currency';
 import { useAuth } from '../components/AuthContext';
 import { useToast } from '../components/ToastContext';
 import './CheckoutPage.css';
@@ -412,7 +413,7 @@ export default function CheckoutPage() {
                       <p className="checkout-item-name">{item.name}</p>
                       <p className="checkout-item-variant">{item.label} · Qty {item.qty}</p>
                     </div>
-                    <span className="checkout-item-total">₹{item.lineTotal}</span>
+                    <span className="checkout-item-total">₹{formatAmount(item.lineTotal)}</span>
                   </li>
                 ))}
               </ul>
@@ -448,7 +449,7 @@ export default function CheckoutPage() {
                 checked={walletTaken}
                 onChange={(e) => setWalletTaken(e.target.checked)}
               />
-              Use wallet balance (₹{summary.walletBalance} available)
+              Use wallet balance (₹{formatAmount(summary.walletBalance)} available)
             </label>
           )}
 
@@ -456,27 +457,27 @@ export default function CheckoutPage() {
             <div className="checkout-totals">
               <div className="checkout-totals-row">
                 <span>Subtotal</span>
-                <span>₹{summary.subtotal}</span>
+                <span>₹{formatAmount(summary.subtotal)}</span>
               </div>
               <div className="checkout-totals-row">
                 <span>Delivery</span>
-                <span>{summary.deliveryFee > 0 ? `₹${summary.deliveryFee}` : 'Free'}</span>
+                <span>{summary.deliveryFee > 0 ? `₹${formatAmount(summary.deliveryFee)}` : 'Free'}</span>
               </div>
               {summary.coupon && (
                 <div className="checkout-totals-row checkout-totals-discount">
                   <span>Coupon discount</span>
-                  <span>−₹{summary.coupon.discount}</span>
+                  <span>−₹{formatAmount(summary.coupon.discount)}</span>
                 </div>
               )}
               {summary.walletAmount > 0 && (
                 <div className="checkout-totals-row checkout-totals-discount">
                   <span>Wallet redeemed</span>
-                  <span>−₹{summary.walletAmount}</span>
+                  <span>−₹{formatAmount(summary.walletAmount)}</span>
                 </div>
               )}
               <div className="checkout-totals-row checkout-totals-grand">
                 <span>Total</span>
-                <span>₹{summary.total}</span>
+                <span>₹{formatAmount(summary.total)}</span>
               </div>
             </div>
           )}
@@ -487,7 +488,7 @@ export default function CheckoutPage() {
             disabled={!addressId || !summary || placingOrder}
             onClick={placeOrder}
           >
-            {placingOrder ? 'Placing order…' : `Place Order · ₹${summary?.total ?? 0}`}
+            {placingOrder ? 'Placing order…' : `Place Order · ₹${formatAmount(summary?.total ?? 0)}`}
           </button>
           {!addressId && <p className="checkout-status">Add a shipping address to continue.</p>}
         </aside>

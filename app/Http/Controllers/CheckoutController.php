@@ -87,15 +87,15 @@ class CheckoutController extends Controller
         return response()->json([
             'success' => true,
             'items' => $items,
-            'subtotal' => (float) $subtotal,
-            'deliveryFee' => (float) $deliveryFee,
+            'subtotal' => round((float) $subtotal, 2),
+            'deliveryFee' => round((float) $deliveryFee, 2),
             'coupon' => $couponCode ? [
                 'code' => $couponCode,
-                'discount' => (float) $couponDiscount,
+                'discount' => round((float) $couponDiscount, 2),
             ] : null,
-            'walletAmount' => (float) $walletAmount,
-            'walletBalance' => (float) (Auth::user()->wallet ?? 0),
-            'total' => (float) max($grandTotal, 0),
+            'walletAmount' => round((float) $walletAmount, 2),
+            'walletBalance' => round((float) (Auth::user()->wallet ?? 0), 2),
+            'total' => round((float) max($grandTotal, 0), 2),
             'stockIssues' => $stockValidation['issues'],
         ]);
     }
@@ -156,7 +156,7 @@ class CheckoutController extends Controller
                 $walletAmount = $this->calculateWalletRedemption($totalBeforeWallet);
             }
 
-            $totalAmount = max($totalBeforeWallet - $walletAmount, 1);
+            $totalAmount = round(max($totalBeforeWallet - $walletAmount, 1), 2);
 
             DB::beginTransaction();
             try {
@@ -166,13 +166,13 @@ class CheckoutController extends Controller
                     'visitor_id' => $request->cookie('visitor_id'),
                     'razorpay_order_id' => '',
                     'total_amount' => $totalAmount,
-                    'sub_total_amount' => $subtotal,
-                    'delivery_fees' => $deliveryFee,
+                    'sub_total_amount' => round($subtotal, 2),
+                    'delivery_fees' => round($deliveryFee, 2),
                     'product_order_list' => $items->toArray(),
                     'ship_address' => $address->toArray(),
                     'coupon' => $couponCode,
-                    'coupon_price' => $couponDiscount,
-                    'wallet_taken' => $walletAmount,
+                    'coupon_price' => round($couponDiscount, 2),
+                    'wallet_taken' => round($walletAmount, 2),
                     'notepay' => $request->note,
                     'order_status' => 'initiated',
                     'created_ip' => $request->ip(),
@@ -254,7 +254,7 @@ class CheckoutController extends Controller
                 'success' => true,
                 'status' => 'paid',
                 'orderId' => $order->id ?? null,
-                'totalAmount' => (float) $tempOrder->total_amount,
+                'totalAmount' => round((float) $tempOrder->total_amount, 2),
             ]);
 
             return $response
@@ -595,8 +595,8 @@ class CheckoutController extends Controller
         $subtotal = 0;
         $items = $variants->map(function (ProductVarient $variant) use ($cart, &$subtotal) {
             $qty = $cart[$variant->id] ?? 0;
-            $price = $variant->price - $variant->discount;
-            $lineTotal = $price * $qty;
+            $price = round($variant->price - $variant->discount, 2);
+            $lineTotal = round($price * $qty, 2);
             $subtotal += $lineTotal;
 
             return [
@@ -610,14 +610,14 @@ class CheckoutController extends Controller
                 'name' => $variant->product->name ?? 'Unknown Product',
                 'label' => $variant->label,
                 'image' => $variant->product->image ?? null,
-                'price' => (float) $price,
-                'mrp' => (float) $variant->price,
+                'price' => $price,
+                'mrp' => round((float) $variant->price, 2),
                 'qty' => $qty,
-                'lineTotal' => (float) $lineTotal,
+                'lineTotal' => $lineTotal,
             ];
         })->values();
 
-        return [$subtotal, $items];
+        return [round($subtotal, 2), $items];
     }
 
     /**
@@ -712,7 +712,7 @@ class CheckoutController extends Controller
         if ($coupon->offer_type == 1) {
             $discount = round(($coupon->offer_val / 100) * $eligibleAmount, 2);
         } else {
-            $discount = min((float) $coupon->offer_val, $eligibleAmount);
+            $discount = round(min((float) $coupon->offer_val, $eligibleAmount), 2);
         }
 
         return [$discount, $coupon->name];

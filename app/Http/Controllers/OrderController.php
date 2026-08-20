@@ -78,12 +78,12 @@ class OrderController extends Controller
                 'id' => $order->id,
                 'placedAt' => $order->created_at,
                 'items' => $items,
-                'subtotal' => (float) $order->sub_total_amount,
-                'deliveryFee' => (float) $order->delivery_fees,
+                'subtotal' => round((float) $order->sub_total_amount, 2),
+                'deliveryFee' => round((float) $order->delivery_fees, 2),
                 'coupon' => $order->coupon,
-                'couponDiscount' => (float) $order->coupon_price,
-                'walletUsed' => (float) $order->wallet_taken,
-                'total' => (float) $order->total_amount,
+                'couponDiscount' => round((float) $order->coupon_price, 2),
+                'walletUsed' => round((float) $order->wallet_taken, 2),
+                'total' => round((float) $order->total_amount, 2),
                 'paid' => (bool) $order->paid,
                 'shippingAddress' => $shipAddress,
                 'tracking' => $order->shipping ? [
@@ -107,7 +107,7 @@ class OrderController extends Controller
             'itemCount' => array_sum(array_column($items, 'qty')),
             'firstItemName' => $items[0]['name'] ?? null,
             'firstItemImage' => $items[0]['image'] ?? null,
-            'total' => (float) $order->total_amount,
+            'total' => round((float) $order->total_amount, 2),
             'paid' => (bool) $order->paid,
         ];
     }

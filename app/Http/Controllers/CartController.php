@@ -151,7 +151,7 @@ class CartController extends Controller
 
         $items = $variants->map(function (ProductVarient $variant) use ($cart) {
             $qty = $cart[$variant->id] ?? 0;
-            $price = $variant->price - $variant->discount;
+            $price = round($variant->price - $variant->discount, 2);
 
             return [
                 'variantId' => $variant->id,
@@ -159,14 +159,14 @@ class CartController extends Controller
                 'name' => $variant->product->name ?? 'Unknown Product',
                 'label' => $variant->label,
                 'image' => $variant->product->image ?? null,
-                'price' => (float) $price,
-                'mrp' => (float) $variant->price,
+                'price' => $price,
+                'mrp' => round((float) $variant->price, 2),
                 'qty' => $qty,
                 'stock' => $variant->quantity,
             ];
         })->values();
 
-        $subtotal = $items->sum(fn ($item) => $item['price'] * $item['qty']);
+        $subtotal = round($items->sum(fn ($item) => $item['price'] * $item['qty']), 2);
         $itemCount = $items->sum('qty');
 
         return response()->json([

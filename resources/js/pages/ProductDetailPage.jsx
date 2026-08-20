@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { apiFetch } from '../lib/api';
 import { discountPercent, parseLabel, productImageSrc, SIZE_META } from '../lib/products';
+import { formatAmount } from '../lib/currency';
 import { useCart } from '../components/CartContext';
 import { useToast } from '../components/ToastContext';
 import './ProductDetailPage.css';
@@ -97,8 +98,8 @@ export default function ProductDetailPage() {
   }
 
   const { size, pack } = parseLabel(variant.label);
-  const price = Number(variant.price) - Number(variant.discount || 0);
-  const mrp = Number(variant.price);
+  const price = Math.round((Number(variant.price) - Number(variant.discount || 0)) * 100) / 100;
+  const mrp = Math.round(Number(variant.price) * 100) / 100;
   const stock = variant.quantity;
   const outOfStock = stock <= 0;
   const hasDiscount = mrp > price;
@@ -181,10 +182,10 @@ export default function ProductDetailPage() {
             )}
 
             <div className="pd-price-row">
-              <span className="pd-price">₹{price}</span>
+              <span className="pd-price">₹{formatAmount(price)}</span>
               {hasDiscount && (
                 <>
-                  <span className="pd-mrp">₹{mrp}</span>
+                  <span className="pd-mrp">₹{formatAmount(mrp)}</span>
                   <span className="pd-discount">{discountPercent(price, mrp)}% off</span>
                 </>
               )}
@@ -220,7 +221,7 @@ export default function ProductDetailPage() {
                   onClick={handleAddToCart}
                   disabled={adding}
                 >
-                  {adding ? 'Adding…' : `Add to Cart · ₹${price * qty}`}
+                  {adding ? 'Adding…' : `Add to Cart · ₹${formatAmount(price * qty)}`}
                 </button>
               </div>
             )}

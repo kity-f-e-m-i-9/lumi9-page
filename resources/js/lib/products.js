@@ -20,8 +20,8 @@ export function toCard(product) {
   if (!variant) return null;
 
   const { size, pack } = parseLabel(variant.label);
-  const price = Number(variant.price) - Number(variant.discount || 0);
-  const mrp = Number(variant.price);
+  const price = Math.round((Number(variant.price) - Number(variant.discount || 0)) * 100) / 100;
+  const mrp = Math.round(Number(variant.price) * 100) / 100;
 
   return {
     productId: product.id,
