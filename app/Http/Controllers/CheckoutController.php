@@ -201,6 +201,16 @@ class CheckoutController extends Controller
         } catch (\Exception $e) {
             Log::error('Error in CheckoutController@placeOrder: '.$e->getMessage());
 
+            $this->sendErrorNotificationEmail(
+                'Error in CheckoutController@placeOrder',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
+
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while placing your order.',
@@ -392,6 +402,16 @@ class CheckoutController extends Controller
         } catch (\Exception $e) {
             Log::error('Error in CheckoutController@saveAddress: '.$e->getMessage());
 
+            $this->sendErrorNotificationEmail(
+                'Error in CheckoutController@saveAddress',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
+
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while saving the address.',
@@ -473,6 +493,16 @@ class CheckoutController extends Controller
             ], 422);
         } catch (\Exception $e) {
             Log::error('Error in CheckoutController@applyCoupon: '.$e->getMessage());
+
+            $this->sendErrorNotificationEmail(
+                'Error in CheckoutController@applyCoupon',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
 
             return response()->json([
                 'success' => false,
@@ -702,5 +732,28 @@ class CheckoutController extends Controller
         $walletAmount = min($walletAmount, $total);
 
         return max($walletAmount, 0);
+    }
+
+    /**
+     * Queue a system-error alert email to the admin recipients. Swallows its
+     * own failures so a broken mail transport never masks the original error.
+     */
+    private function sendErrorNotificationEmail(string $subject, array $errorDetails): void
+    {
+        try {
+            $recipients = ['abhikongu1@gmail.com', 'abhinesh@femi9.in'];
+
+            \Mail::to($recipients)->queue(new \App\Mail\ErrorNotification($subject, $errorDetails));
+
+            Log::info('Error notification email queued', [
+                'subject' => $subject,
+                'recipients' => implode(', ', $recipients),
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to queue error notification email: '.$e->getMessage(), [
+                'subject' => $subject,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

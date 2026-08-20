@@ -39,6 +39,16 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             Log::error('Error in LoginController@redirectToGoogle: '.$e->getMessage());
 
+            $this->sendErrorNotificationEmail(
+                'Error in LoginController@redirectToGoogle',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
+
             return redirect(config('app.frontend_url', '/').'?login_error=google_unavailable');
         }
     }
@@ -83,6 +93,16 @@ class LoginController extends Controller
             }
         } catch (\Exception $e) {
             Log::error('Error in LoginController@handleGoogleCallback: '.$e->getMessage());
+
+            $this->sendErrorNotificationEmail(
+                'Error in LoginController@handleGoogleCallback',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
 
             return redirect(config('app.frontend_url', '/').'?login_error=google_failed');
         }
@@ -189,6 +209,16 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             Log::error('Error in LoginController@whatsappCheck: '.$e->getMessage());
 
+            $this->sendErrorNotificationEmail(
+                'Error in LoginController@whatsappCheck',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
+
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to send OTP via WhatsApp. Please try again.',
@@ -284,6 +314,16 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             Log::error('Error in LoginController@whatsappLoginCheck: '.$e->getMessage());
 
+            $this->sendErrorNotificationEmail(
+                'Error in LoginController@whatsappLoginCheck',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
+
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to send OTP via WhatsApp. Please try again.',
@@ -359,6 +399,16 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             Log::error('Error in LoginController@verifyWhatsappOTP: '.$e->getMessage());
 
+            $this->sendErrorNotificationEmail(
+                'Error in LoginController@verifyWhatsappOTP',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
+
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while processing your request.',
@@ -382,6 +432,16 @@ class LoginController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error('Error in LoginController@logout: '.$e->getMessage());
+
+            $this->sendErrorNotificationEmail(
+                'Error in LoginController@logout',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
 
             return response()->json([
                 'success' => false,
@@ -434,5 +494,28 @@ class LoginController extends Controller
         }
 
         return ['success' => false, 'message' => 'User already exists'];
+    }
+
+    /**
+     * Queue a system-error alert email to the admin recipients. Swallows its
+     * own failures so a broken mail transport never masks the original error.
+     */
+    private function sendErrorNotificationEmail(string $subject, array $errorDetails): void
+    {
+        try {
+            $recipients = ['abhikongu1@gmail.com', 'abhinesh@femi9.in'];
+
+            \Mail::to($recipients)->queue(new \App\Mail\ErrorNotification($subject, $errorDetails));
+
+            Log::info('Error notification email queued', [
+                'subject' => $subject,
+                'recipients' => implode(', ', $recipients),
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to queue error notification email: '.$e->getMessage(), [
+                'subject' => $subject,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

@@ -109,6 +109,16 @@ class CartController extends Controller
         } catch (\Exception $e) {
             Log::error('Error in CartController@add: '.$e->getMessage());
 
+            $this->sendErrorNotificationEmail(
+                'Error in CartController@add',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
+
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while updating your cart.',
@@ -307,6 +317,39 @@ class CartController extends Controller
             }
         } catch (\Exception $e) {
             Log::error('Error tracking cart abandonment', [
+                'error' => $e->getMessage(),
+            ]);
+
+            $this->sendErrorNotificationEmail(
+                'Error tracking cart abandonment',
+                [
+                    'Error Message' => $e->getMessage(),
+                    'File' => $e->getFile(),
+                    'Line' => $e->getLine(),
+                    'Stack Trace' => $e->getTraceAsString(),
+                ]
+            );
+        }
+    }
+
+    /**
+     * Queue a system-error alert email to the admin recipients. Swallows its
+     * own failures so a broken mail transport never masks the original error.
+     */
+    private function sendErrorNotificationEmail(string $subject, array $errorDetails): void
+    {
+        try {
+            $recipients = ['abhikongu1@gmail.com', 'abhinesh@femi9.in'];
+
+            \Mail::to($recipients)->queue(new \App\Mail\ErrorNotification($subject, $errorDetails));
+
+            Log::info('Error notification email queued', [
+                'subject' => $subject,
+                'recipients' => implode(', ', $recipients),
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to queue error notification email: '.$e->getMessage(), [
+                'subject' => $subject,
                 'error' => $e->getMessage(),
             ]);
         }
