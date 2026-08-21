@@ -13,10 +13,37 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { trackPageView } from './lib/analytics';
 
+/**
+ * Order confirmation/success/detail views carry order_token, order id, and
+ * amount in the URL. They're never useful as landing-page/traffic analytics
+ * and shouldn't be stored as page views. Order-conversion attribution is
+ * unaffected — that's recorded separately by CheckoutController from the
+ * visitor's existing session, not from these page-view rows.
+ */
+function isOrderRelatedPath(pathname, search) {
+  if (pathname === '/order/confirmation') {
+    return true;
+  }
+
+  if (/^\/profile\/orders\//.test(pathname)) {
+    return true;
+  }
+
+  if (pathname === '/profile' && new URLSearchParams(search).has('order')) {
+    return true;
+  }
+
+  return false;
+}
+
 export default function App() {
   const location = useLocation();
 
   useEffect(() => {
+    if (isOrderRelatedPath(location.pathname, location.search)) {
+      return;
+    }
+
     trackPageView(window.location.href);
   }, [location.pathname, location.search]);
 
