@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { apiFetch } from '../lib/api';
 import { useCart } from '../components/CartContext';
+import { trackPurchase } from '../lib/dataLayer';
 import './OrderConfirmPage.css';
 
 const FAILURE_MESSAGES = {
@@ -9,6 +10,35 @@ const FAILURE_MESSAGES = {
   payment_failed: 'Your payment could not be completed. No amount has been charged.',
   expired: 'Your payment session expired. No amount has been charged.',
 };
+
+/**
+ * /api/checkout/confirm has no server-side idempotency guard — revisiting
+ * this page for an already-completed order (back button, refresh) keeps
+ * returning status: 'paid'. Dedupe the purchase event client-side per
+ * orderId so GA4 revenue isn't double-counted.
+ */
+function trackPurchaseOnce(orderId, totalAmount) {
+  if (orderId == null) return;
+
+  const key = `lumi9_purchase_tracked_${orderId}`;
+  try {
+    if (window.sessionStorage.getItem(key)) return;
+    window.sessionStorage.setItem(key, '1');
+  } catch {
+    // sessionStorage unavailable — fall through and track anyway rather
+    // than silently dropping the event.
+  }
+
+  let items = [];
+  try {
+    items = JSON.parse(window.sessionStorage.getItem('lumi9_pending_purchase_items') || '[]');
+    window.sessionStorage.removeItem('lumi9_pending_purchase_items');
+  } catch {
+    items = [];
+  }
+
+  trackPurchase({ orderId, value: totalAmount, items });
+}
 
 export default function OrderConfirmPage() {
   const [searchParams] = useSearchParams();
@@ -28,6 +58,7 @@ export default function OrderConfirmPage() {
     apiFetch(`/api/checkout/confirm?order_token=${encodeURIComponent(orderToken)}`)
       .then(async (data) => {
         if (data.status === 'paid') {
+          trackPurchaseOnce(data.orderId, data.totalAmount);
           await refreshCart();
           const params = new URLSearchParams({ order: 'success' });
           if (data.orderId) params.set('id', data.orderId);

@@ -5,6 +5,7 @@ import { discountPercent, productImageSrc, toCard } from '../lib/products';
 import { formatAmount } from '../lib/currency';
 import { useCart } from './CartContext';
 import { useToast } from './ToastContext';
+import { trackAddToCart } from '../lib/dataLayer';
 import './Collection.css';
 
 export default function Collection() {
@@ -58,6 +59,7 @@ export default function Collection() {
     setAddingId(null);
     if (ok) {
       toast.success(`${card.name} added to cart.`);
+      trackAddToCart(card, 1);
     }
   };
 

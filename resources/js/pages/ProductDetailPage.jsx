@@ -6,6 +6,7 @@ import { discountPercent, parseLabel, productImageSrc, SIZE_META } from '../lib/
 import { formatAmount } from '../lib/currency';
 import { useCart } from '../components/CartContext';
 import { useToast } from '../components/ToastContext';
+import { trackAddToCart } from '../lib/dataLayer';
 import './ProductDetailPage.css';
 
 function stripHtml(html) {
@@ -113,7 +114,13 @@ export default function ProductDetailPage() {
     setAdding(true);
     const ok = await addToCart(variant.id, qty);
     setAdding(false);
-    if (ok) toast.success(`${displayName} added to cart.`);
+    if (ok) {
+      toast.success(`${displayName} added to cart.`);
+      trackAddToCart(
+        { productId: product.id, variantId: variant.id, name: displayName, price },
+        qty
+      );
+    }
   };
 
   return (

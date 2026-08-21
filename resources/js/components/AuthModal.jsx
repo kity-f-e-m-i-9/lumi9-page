@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { useAuth } from './AuthContext';
 import { useToast } from './ToastContext';
+import { trackLogin, trackSignup } from '../lib/dataLayer';
 import './AuthModal.css';
 
 const OTP_LENGTH = 6;
@@ -359,6 +360,11 @@ export default function AuthModal() {
     setUser(user);
     closeModal();
     toast.success(isLogin ? `Welcome back, ${user.name}!` : `Welcome to Lumi9, ${user.name}!`);
+    if (isLogin) {
+      trackLogin(user, 'whatsapp');
+    } else {
+      trackSignup(user, 'whatsapp');
+    }
   };
 
   return (

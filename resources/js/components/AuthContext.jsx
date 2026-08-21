@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { useToast } from './ToastContext';
+import { trackLogin } from '../lib/dataLayer';
 
 const AuthContext = createContext(null);
 
@@ -28,6 +29,9 @@ export function AuthProvider({ children }) {
       apiFetch('/api/me').then((data) => {
         setUser(data?.user || null);
         toast.success(`Welcome, ${data?.user?.name || 'back'}!`);
+        if (data?.user) {
+          trackLogin(data.user, 'google');
+        }
       });
     } else if (loginError === 'google_unavailable' || loginError === 'google_failed') {
       toast.error('Google sign-in failed. Please try again.');

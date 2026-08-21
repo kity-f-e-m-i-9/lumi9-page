@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { apiFetch } from '../lib/api';
 import { formatAmount } from '../lib/currency';
 import { useAuth } from '../components/AuthContext';
 import { useToast } from '../components/ToastContext';
+import { trackBeginCheckout, trackCheckoutProgress } from '../lib/dataLayer';
 import './CheckoutPage.css';
 
 const productImageSrc = (image) => (image ? `/uploads/Product/${image}` : '/images/logo.webp');
@@ -258,6 +259,7 @@ export default function CheckoutPage() {
   const [placingOrder, setPlacingOrder] = useState(false);
   const [paymentError, setPaymentError] = useState(searchParams.get('payment_error'));
   const toast = useToast();
+  const beganCheckoutRef = useRef(false);
 
   const dismissPaymentError = () => {
     setPaymentError(null);
@@ -274,7 +276,13 @@ export default function CheckoutPage() {
     if (walletTaken) params.set('wallet_taken', '1');
 
     apiFetch(`/api/checkout/summary?${params.toString()}`)
-      .then((data) => setSummary(data))
+      .then((data) => {
+        setSummary(data);
+        if (!beganCheckoutRef.current && data?.items?.length) {
+          beganCheckoutRef.current = true;
+          trackBeginCheckout(data.items, data.total);
+        }
+      })
       .catch((err) => setSummaryError(err.message))
       .finally(() => setSummaryLoading(false));
   };
@@ -321,6 +329,21 @@ export default function CheckoutPage() {
   const placeOrder = async () => {
     setPlacingOrder(true);
     try {
+      if (summary) {
+        trackCheckoutProgress(summary.items, summary.total);
+        // OrderConfirmPage can't refetch line items after payment returns
+        // from femi9.in, so stash them here for the purchase event.
+        try {
+          window.sessionStorage.setItem(
+            'lumi9_pending_purchase_items',
+            JSON.stringify(summary.items || [])
+          );
+        } catch {
+          // sessionStorage unavailable (private mode etc.) — purchase event
+          // will just fire without line items.
+        }
+      }
+
       const data = await apiFetch('/api/checkout/place-order', {
         method: 'POST',
         body: JSON.stringify({ addr_id: addressId, wallet_taken: walletTaken ? 1 : 0 }),
