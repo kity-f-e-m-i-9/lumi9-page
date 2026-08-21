@@ -1,4 +1,5 @@
-import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
@@ -10,8 +11,15 @@ import ProfilePage from './pages/ProfilePage';
 import OrderDetailPage from './pages/OrderDetailPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
+import { trackPageView } from './lib/analytics';
 
 export default function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    trackPageView(window.location.href);
+  }, [location.pathname, location.search]);
+
   return (
     <>
       <Preloader />
